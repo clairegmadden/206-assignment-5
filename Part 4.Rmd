@@ -44,6 +44,13 @@ sal_by_service <- ggplot(faculty_salaries, aes(x = Years_Service, y = Salary)) +
 
 sal_by_service
 
+#Salary by years since PhD, color coded for gender, separated by discipline
+sal_by_years <- ggplot(faculty_salaries, aes(x = Years_PhD, y = Salary)) +
+  geom_point(aes(color = Sex), alpha = 0.5) +
+  facet_wrap(~ Discipline)
+
+sal_by_years
+
 #Mean salary by discipline (A = theoretical, B = applied)
 sal_discipline_mean <- faculty_salaries %>% 
   group_by(Discipline) %>% 
@@ -78,8 +85,65 @@ summary(sal_lm1)
 
 #Coefficient for discipline seems to make sense - applied made more than theoretical
 
-#Are years_PhD and years_service redundant? Do they sort of get at a similar thing? Is years_service a better predictor than years since the PhD?
+#Are years_PhD and years_service redundant? Do they sort of get at a similar thing? Which one is better?
 
 #Based on overall p-value, the model does significantly predict salary (p < 0.001)
+```
+
+```{r}
+#Another model, this time using years_service and not years_phd
+
+sal_lm2 <- lm(Salary ~ Rank + Discipline + Sex + Years_Service, data = faculty_salaries)
+
+summary(sal_lm2)
+```
+
+```{r}
+#What about a model with years since phd, instead of years of service?
+
+sal_lm3 <- lm(Salary ~ Rank + Discipline + Sex + Years_PhD, data = faculty_salaries)
+
+summary(sal_lm3)
+
+```
+
+```{r}
+#Now a model with only rank, discipline, and sex (not using years since PhD or years of service)
+
+sal_lm4 <- lm(Salary ~ Rank + Discipline + Sex, data = faculty_salaries)
+
+summary(sal_lm4)
+```
+
+
+```{r}
+#Model diagnostics
+
+#For lm1 (saturated model)
+
+plot(sal_lm1)
+
+#Homoscedasticity seems fine, residuals normality looks pretty good for majority of data (upper tail is a little strange)
+
+plot(sal_lm2)
+
+#Homoscedasticity seems fine, again residuals normality looks pretty good for majority of data (upper tail is a little strange)
+
+plot(sal_lm3)
+
+#Homoscedasticity seems fine, again residuals normality looks pretty good for majority of data (upper tail is a little strange)
+
+plot(sal_lm4)
+
+#Homoscedasticity seems fine, again residuals normality looks pretty good for majority of data (upper tail is a little strange)
+```
+
+```{r}
+#AIC models comparison
+
+lm1_aic <- AIC(sal_lm1) #9093.82
+lm2_aic <- AIC(sal_lm2) #9096.81
+lm3_aic <- AIC(sal_lm3) #9097.21
+lm4_aic <- AIC(sal_lm4) #9095.45
 ```
 
