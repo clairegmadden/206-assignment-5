@@ -37,6 +37,49 @@ sal_by_rank <- faculty_salaries %>%
     mean = mean(Salary)
   )
 
+#Salary by years of service (number of years as faculty), color coded for gender, separated by discipline
+sal_by_service <- ggplot(faculty_salaries, aes(x = Years_Service, y = Salary)) +
+  geom_point(aes(color = Sex), alpha = 0.5) +
+  facet_wrap(~ Discipline)
 
+sal_by_service
+
+#Mean salary by discipline (A = theoretical, B = applied)
+sal_discipline_mean <- faculty_salaries %>% 
+  group_by(Discipline) %>% 
+  summarize(
+    mean = mean(Salary)
+  )
+
+```
+
+```{r}
+#Creating a saturated model for salary, including all variables:
+
+#Rank - professor, associate professor, assistant professor
+#Discipline - A = theoretical or B = applied
+#Sex - male or female
+#Years_PhD - years since getting PhD
+#Years_Service - years as a faculty member
+
+sal_lm1 <- lm(Salary ~ Rank + Discipline + Sex + Years_PhD + Years_Service, data = faculty_salaries)
+
+summary(sal_lm1)
+
+#Info from the model summary:
+#For rank, the referene level is associate professor
+#For sex, the reference level is female
+#For discipline, the reference level is A (theoretical)
+#Years_PhD and Years_Service are continuous 
+
+#Coefficients for rank seem to make sense - compared to associate professor, a full professor makes a good deal more, and an assistant professor makes less (matches the means that were calculated above)
+
+#Coefficient for sex seems to make sense - male faculty made more
+
+#Coefficient for discipline seems to make sense - applied made more than theoretical
+
+#Are years_PhD and years_service redundant? Do they sort of get at a similar thing? Is years_service a better predictor than years since the PhD?
+
+#Based on overall p-value, the model does significantly predict salary (p < 0.001)
 ```
 
