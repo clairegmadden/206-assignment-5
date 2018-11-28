@@ -14,6 +14,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 library(tidyverse)
 library(stargazer)
+library(car)
 
 #Load edited dataset
 
@@ -37,6 +38,14 @@ sal_by_rank <- faculty_salaries %>%
     mean = mean(Salary)
   )
 
+#Average years (since PhD, and of service) for each rank
+sal_by_bothyears <- faculty_salaries %>% 
+  group_by(Rank) %>% 
+  summarize(
+    mean_PhD = mean(Years_PhD),
+    mean_service = mean(Years_Service)
+  )
+
 #Salary by years of service (number of years as faculty), color coded for gender, separated by discipline
 sal_by_service <- ggplot(faculty_salaries, aes(x = Years_Service, y = Salary)) +
   geom_point(aes(color = Sex), alpha = 0.5) +
@@ -51,6 +60,20 @@ sal_by_years <- ggplot(faculty_salaries, aes(x = Years_PhD, y = Salary)) +
 
 sal_by_years
 
+#Salary by years of service (number of years as faculty), color coded for gender, separated by rank
+sal_by_service_rank <- ggplot(faculty_salaries, aes(x = Years_Service, y = Salary)) +
+  geom_point(aes(color = Sex), alpha = 0.5) +
+  facet_wrap(~ Rank)
+
+sal_by_service_rank
+
+#Salary by years since PhD, color coded for gender, separated by rank
+sal_by_years_rank <- ggplot(faculty_salaries, aes(x = Years_PhD, y = Salary)) +
+  geom_point(aes(color = Sex), alpha = 0.5) +
+  facet_wrap(~ Rank)
+
+sal_by_years_rank
+
 #Mean salary by discipline (A = theoretical, B = applied)
 sal_discipline_mean <- faculty_salaries %>% 
   group_by(Discipline) %>% 
@@ -59,6 +82,19 @@ sal_discipline_mean <- faculty_salaries %>%
   )
 
 ```
+
+```{r}
+#Exploring possibilities of collinearity (focusing on years PhD, years of service)
+
+col_df <- faculty_salaries %>% 
+  select(Years_PhD, Years_Service, Salary)
+
+pairs(col_df)
+
+#Years_PhD and Years_Service appear to be highly correlated
+
+```
+
 
 ```{r}
 #Creating a saturated model for salary, including all variables:
@@ -85,9 +121,10 @@ summary(sal_lm1)
 
 #Coefficient for discipline seems to make sense - applied made more than theoretical
 
-#Are years_PhD and years_service redundant? Do they sort of get at a similar thing? Which one is better?
+#Are years_PhD and years_service redundant? Do they sort of get at a similar thing? Which one is better? Are they both incorporated within rank?
 
 #Based on overall p-value, the model does significantly predict salary (p < 0.001)
+
 ```
 
 ```{r}
@@ -96,6 +133,8 @@ summary(sal_lm1)
 sal_lm2 <- lm(Salary ~ Rank + Discipline + Sex + Years_Service, data = faculty_salaries)
 
 summary(sal_lm2)
+
+#Still weird that there is a negative coefficient for years of service - doesn't make sense!
 ```
 
 ```{r}
@@ -105,6 +144,7 @@ sal_lm3 <- lm(Salary ~ Rank + Discipline + Sex + Years_PhD, data = faculty_salar
 
 summary(sal_lm3)
 
+#Positive coefficient for years since PhD, so better!
 ```
 
 ```{r}
@@ -136,14 +176,38 @@ plot(sal_lm3)
 plot(sal_lm4)
 
 #Homoscedasticity seems fine, again residuals normality looks pretty good for majority of data (upper tail is a little strange)
+
+#For the q-q, upper tail could be influenced that as rank/years get high, salaries start to increase non-linearly
 ```
 
 ```{r}
+#VIF for each model
+
+vif(sal_lm1)
+
+#Years_PhD and Years_Service both have VIF values > 4 (7.5, 5.9) - remove one of them from the model? Remove both - is this incorporated into rank?
+
+vif(sal_lm2)
+vif(sal_lm3)
+vif(sal_lm4)
+
+#No other VIF values were higher than 4. Also, with the exception of Years_PhD in model 2, all were very close to one (and in that instance, the value was 2)
+
 #AIC models comparison
 
 lm1_aic <- AIC(sal_lm1) #9093.82
 lm2_aic <- AIC(sal_lm2) #9096.81
 lm3_aic <- AIC(sal_lm3) #9097.21
 lm4_aic <- AIC(sal_lm4) #9095.45
+```
+
+```{r}
+#What about trying two models with interaction terms - PhD * rank, and Service * rank
+
+sal_lm5 <- lm(Salary ~ Rank + Sex + Discipline + Years_PhD + Rank*Years_PhD, data = faculty_salaries)
+
+summary(sal_lm5)
+
+#Doesn't increase model fit
 ```
 
