@@ -86,8 +86,11 @@ qq_female_pd
 ```{r}
 # Does median salary differ significantly between male and female starting postdoc positions?
 
+test_pd <- wilcox.test(median_salary$male_pd, median_salary$female_pd)
 
+test_pd
 
+# test received a warning message "cannot compute exact pvalue with ties"
 
 ```
 
@@ -96,6 +99,13 @@ qq_female_pd
 
 ```{r}
 # Does median salary differ significantly between male and female PhD recipients in non-postdoc employment positions?
+
+test_emp <- wilcox.test(median_salary$male_emp, median_salary$female_emp)
+
+test_emp
+
+
+# test received a warning message "cannot compute exact pvalue with ties"
 
 
 ```
