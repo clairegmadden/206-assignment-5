@@ -8,3 +8,92 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
+
+```{r, echo = FALSE}
+# load packages
+
+library(tidyverse)
+
+# read in data
+
+median_salary <- read_csv("Median salary for doctoral recipients.csv")
+
+```
+
+```{r}
+# exploration of data
+
+# male employed
+hist_male_emp <- ggplot(median_salary, aes(x = male_emp))+
+  geom_histogram(bins = 10)
+
+hist_male_emp
+
+qq_male_emp <- ggplot(median_salary, aes(sample = male_emp))+
+  geom_qq()
+
+qq_male_emp
+
+# female employed
+hist_female_emp <- ggplot(median_salary, aes(x = female_emp))+
+  geom_histogram(bins = 10)
+
+hist_female_emp
+
+qq_female_emp <- ggplot(median_salary, aes(sample = female_emp))+
+  geom_qq()
+
+qq_female_emp
+
+
+# male post doc
+
+hist_male_pd <- ggplot(median_salary, aes(x = male_pd))+
+  geom_histogram(bins = 10)
+
+hist_male_pd
+
+qq_male_pd <- ggplot(median_salary, aes(sample = male_pd))+
+  geom_qq()
+
+qq_male_pd
+
+# female post doc
+
+hist_female_pd <- ggplot(median_salary, aes(x = female_pd))+
+  geom_histogram(bins = 10)
+
+hist_female_pd
+
+qq_female_pd <- ggplot(median_salary, aes(sample = female_pd))+
+  geom_qq()
+
+qq_female_pd
+
+```
+
+
+
+
+
+
+```{r}
+# Does median salary differ significantly between male and female starting postdoc positions?
+
+
+
+```
+
+
+
+
+```{r}
+# Does median salary differ significantly between male and female PhD recipients in non-postdoc employment positions?
+
+
+```
+
+
+
+
