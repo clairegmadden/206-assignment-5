@@ -23,6 +23,7 @@ library(kableExtra)
 # Read in CSV file of female PhD data
 
 phd <- read_csv("female_phd.csv") 
+phd2 <- read_csv("phd_table_part2.csv")
 
 ```
 
@@ -65,25 +66,23 @@ phd_bar_pct <- ggplot(phd, aes(fill = Field, x = Year, y = Degrees))+
 
 phd_bar_pct
 
+#Table for the data in part 2
+
+phd_table <- kable(phd2, align = "c") %>% 
+  kable_styling(bootstrap_options = c("striped"), full_width = FALSE)
+
+phd_table
+
 ```
 
 ```{r}
 
 #working on building a table
 
-phd_summary <- phd %>% 
-  mutate(
-    Physical = 
-  )
-  group_by(Year) %>% 
-  summarize('Degrees Awarded' = sum(Degrees))
-
-phd_summary
-
-phd_table <- kable(phd, col.names = c("Field of Study", "Year", "Degrees Awarded"), align = "c") 
+phd_table <- kable(phd2, col.names = c("Year", "Physical and Earth Sciences", "Engineering", "Education", "Humanities and Arts"), align = "c") %>% 
+  kable_styling(bootstrap_options = c("striped"), full_width = FALSE)
 
 phd_table
-
 
 ```
 
