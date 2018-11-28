@@ -8,3 +8,35 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
+```{r}
+#Load packages
+
+library(tidyverse)
+library(stargazer)
+
+#Load edited dataset
+
+faculty_salaries <- read_csv("faculty data edited.csv")
+```
+
+```{r}
+#Some initial data exploration to get an early sense of any trends
+
+#Salary by gender
+sal_by_gender <- faculty_salaries %>% 
+  group_by(Sex) %>% 
+  summarize(
+    mean = mean(Salary)
+  )
+
+#Salary by rank (professor, associate professor, assistant professor)
+sal_by_rank <- faculty_salaries %>% 
+  group_by(Rank) %>% 
+  summarize(
+    mean = mean(Salary)
+  )
+
+
+```
+
