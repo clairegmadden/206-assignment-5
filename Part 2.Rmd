@@ -81,6 +81,8 @@ phd_table
 
 # This data doesn't strike me as something that would make sense to use statistical analysis like ANOVA or t-tests for.  It's really just a ratio over three separate samples.  What do you guys think? I created some exploratory histograms and QQ plots and they didn't seem to make any sense.
 
+#What about chi-square tests? Not sure exactly what the input proportion table would look like- maybe proportion of each field per year, and then see if year has a significant influence on it? - Bridget
+
 #I think we should probably include the bar plot showing percentage of the whole, and the table showing raw numbers of degrees in each year, to give two different perspectives on the same story.
 
 ```
