@@ -9,4 +9,81 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Testing Github connection
+```{r}
+
+#Load Necessary packages
+
+library(tidyverse) 
+library(ggplot2)
+library(kableExtra)
+
+```
+
+```{r}
+# Read in CSV file of female PhD data
+
+phd <- read_csv("female_phd.csv") 
+
+```
+
+```{r}
+
+phd_phys <- phd %>% 
+  filter(Field == "Physical and Earth Science")
+
+phd_eng <- phd %>% 
+  filter(Field == "Engineering")
+
+phd_ed <- phd %>% 
+  filter(Field == "Education")
+
+phd_art <- phd %>% 
+  filter(Field == "Humanities and arts")
+
+```
+
+
+```{r}
+
+
+
+# Bar graph showing total number of degrees, rather than percentage of a whole
+phd_bar <- ggplot(phd, aes(fill = Field, x = Year, y = Degrees))+
+  geom_bar(stat = "identity")+
+  theme_classic()+
+  scale_x_continuous(expand = c(0,0), breaks = seq(1985,2015, by = 15))+
+  scale_y_continuous(expand = c(0,0))
+
+phd_bar
+
+#Bar graph showing number of degrees in each field as a percentage of the whole
+phd_bar_pct <- ggplot(phd, aes(fill = Field, x = Year, y = Degrees))+
+  geom_bar(stat = "identity", position="fill")+
+  theme_classic()+
+  scale_x_continuous(expand = c(0,0), breaks = seq(1985,2015, by = 15))+
+  scale_y_continuous(expand = c(0,0))
+
+phd_bar_pct
+
+```
+
+```{r}
+
+#working on building a table
+
+phd_summary <- phd %>% 
+  mutate(
+    Physical = 
+  )
+  group_by(Year) %>% 
+  summarize('Degrees Awarded' = sum(Degrees))
+
+phd_summary
+
+phd_table <- kable(phd, col.names = c("Field of Study", "Year", "Degrees Awarded"), align = "c") 
+
+phd_table
+
+
+```
+
