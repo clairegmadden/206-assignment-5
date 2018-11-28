@@ -27,26 +27,30 @@ phd2 <- read_csv("phd_table_part2.csv")
 
 ```
 
+
 ```{r}
+#Creating subsets of degrees awarded by year in each field. Not sure we need this.
 
 phd_phys <- phd %>% 
-  filter(Field == "Physical and Earth Science")
+  filter(Field == "Physical and Earth Science") %>% 
+  select(Year, Degrees)
 
 phd_eng <- phd %>% 
-  filter(Field == "Engineering")
+  filter(Field == "Engineering")%>% 
+  select(Year, Degrees)
 
 phd_ed <- phd %>% 
-  filter(Field == "Education")
+  filter(Field == "Education")%>% 
+  select(Year, Degrees)
 
 phd_art <- phd %>% 
-  filter(Field == "Humanities and arts")
+  filter(Field == "Humanities and arts")%>% 
+  select(Year, Degrees)
 
 ```
 
 
 ```{r}
-
-
 
 # Bar graph showing total number of degrees, rather than percentage of a whole
 phd_bar <- ggplot(phd, aes(fill = Field, x = Year, y = Degrees))+
@@ -68,21 +72,15 @@ phd_bar_pct
 
 #Table for the data in part 2
 
-phd_table <- kable(phd2, align = "c") %>% 
-  kable_styling(bootstrap_options = c("striped"), full_width = FALSE)
-
-phd_table
-
-```
-
-```{r}
-
-#working on building a table
-
 phd_table <- kable(phd2, col.names = c("Year", "Physical and Earth Sciences", "Engineering", "Education", "Humanities and Arts"), align = "c") %>% 
   kable_styling(bootstrap_options = c("striped"), full_width = FALSE)
 
 phd_table
 
-```
+# Do we want to include percentage of the whole for each year in this table?
 
+# This data doesn't strike me as something that would make sense to use statistical analysis like ANOVA or t-tests for.  It's really just a ratio over three separate samples.  What do you guys think? I created some exploratory histograms and QQ plots and they didn't seem to make any sense.
+
+#I think we should probably include the bar plot showing percentage of the whole, and the table showing raw numbers of degrees in each year, to give two different perspectives on the same story.
+
+```
