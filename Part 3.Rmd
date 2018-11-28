@@ -86,7 +86,7 @@ qq_female_pd
 ```{r}
 # Does median salary differ significantly between male and female starting postdoc positions?
 
-test_pd <- wilcox.test(median_salary$male_pd, median_salary$female_pd)
+test_pd <- wilcox.test(median_salary$male_pd, median_salary$female_pd, paired = TRUE)
 
 test_pd
 
@@ -100,7 +100,7 @@ test_pd
 ```{r}
 # Does median salary differ significantly between male and female PhD recipients in non-postdoc employment positions?
 
-test_emp <- wilcox.test(median_salary$male_emp, median_salary$female_emp)
+test_emp <- wilcox.test(median_salary$male_emp, median_salary$female_emp, paired = TRUE)
 
 test_emp
 
