@@ -73,6 +73,9 @@ qq_female_pd <- ggplot(median_salary, aes(sample = female_pd))+
 
 qq_female_pd
 
+# these are not looking to be very normally distributed, but because they are medians of a larget data set is it still okay to do t-test?
+# or should i use Mann - Whitney U (wilcoxon rank sum) test for rank? - risk loss of resolution
+
 ```
 
 
@@ -82,6 +85,7 @@ qq_female_pd
 
 ```{r}
 # Does median salary differ significantly between male and female starting postdoc positions?
+
 
 
 
