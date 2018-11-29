@@ -211,3 +211,12 @@ summary(sal_lm5)
 
 ```
 
+```{r}
+#What about taking out rank and leaving in one of the years?
+
+sal_lm6 <- lm(Salary ~ Discipline + Sex + Years_Service, data = faculty_salaries)
+
+summary(sal_lm6)
+
+```
+
