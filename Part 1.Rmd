@@ -8,3 +8,28 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
+```{r}
+#Load packages
+
+library(tidyverse)
+
+#Load data
+
+enroll <- read_csv("grad enrollment edited.csv")
+
+```
+
+```{r, warning = FALSE}
+#Visualize the trends in the raw data
+
+enroll_graph <- ggplot(enroll, aes(x = year)) +
+  geom_line(aes(y = total_males), color = "cornflowerblue") +
+  geom_line(aes(y = total_females), color = "darkslategray3")
+  
+enroll_graph  
+  
+  
+  
+```
+
