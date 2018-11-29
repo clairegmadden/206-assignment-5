@@ -92,6 +92,8 @@ test_pd
 
 # test received a warning message "cannot compute exact pvalue with ties"
 
+# non significant p value
+
 ```
 
 
@@ -108,7 +110,7 @@ test_emp
 # test received a warning message "cannot compute exact pvalue with ties"
 # need to find out why test is defaulting to continuity correction
 
-# non significant pvalue
+# significant p value = 0.00257 
 
 
 
@@ -116,5 +118,24 @@ test_emp
 ```
 
 
+```{r}
+# make side by side column graphs of median salary for each field in post doc
 
+# maybe make a new dataframe first
+
+
+
+```
+
+
+
+
+```{r}
+# make side by side column graphs of median salary for each field in employed
+
+
+
+
+
+```
 
