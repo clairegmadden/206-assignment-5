@@ -202,12 +202,12 @@ lm4_aic <- AIC(sal_lm4) #9095.45
 ```
 
 ```{r}
-#What about trying two models with interaction terms - PhD * rank, and Service * rank
+#What about trying two models with interaction terms 
 
-sal_lm5 <- lm(Salary ~ Rank + Sex + Discipline + Years_PhD + Rank*Years_PhD, data = faculty_salaries)
+sal_lm5 <- lm(Salary ~ Rank + Sex + Discipline + Years_Service + Discipline*Years_Service, data = faculty_salaries)
 
 summary(sal_lm5)
 
-#Doesn't increase model fit
+
 ```
 
