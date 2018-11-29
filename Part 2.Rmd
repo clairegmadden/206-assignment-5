@@ -78,17 +78,15 @@ phd_table <- kable(phd2, col.names = c("Year", "Physical and Earth Sciences", "E
 phd_table
 
 #Chi squared
+#H0: No significant difference in enrollment proportions in different years
 
 phd_x2 <- chisq.test(phd2)
 
 phd_x2
 
+#p < .0001, reject null. Enrollment proportion does differ significantly between years.
 
 # Do we want to include percentage of the whole for each year in this table?
-
-# This data doesn't strike me as something that would make sense to use statistical analysis like ANOVA or t-tests for.  It's really just a ratio over three separate samples.  What do you guys think? I created some exploratory histograms and QQ plots and they didn't seem to make any sense.
-
-#What about chi-square tests? Not sure exactly what the input proportion table would look like- maybe proportion of each field per year, and then see if year has a significant influence on it? - Bridget
 
 #I think we should probably include the bar plot showing percentage of the whole, and the table showing raw numbers of degrees in each year, to give two different perspectives on the same story.
 
