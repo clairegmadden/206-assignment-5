@@ -24,8 +24,8 @@ enroll <- read_csv("grad enrollment edited.csv")
 #Visualize the trends in the raw data
 
 enroll_graph <- ggplot(enroll, aes(x = year)) +
-  geom_line(aes(y = total_males), color = "cornflowerblue") +
-  geom_line(aes(y = total_females), color = "darkslategray3")
+  geom_line(aes(y = total_males, color = "total_males")) +
+  geom_line(aes(y = total_females, color = "total_females"))
   
 enroll_graph  
   
