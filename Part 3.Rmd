@@ -165,3 +165,17 @@ emp_graph
 
 ```
 
+
+
+
+```{r}
+# add box plot with each column
+
+box_plot <- ggplot(data_melt, aes(x = variable, y = value, fill = variable))+
+  geom_boxplot()
+
+box_plot
+
+
+```
+
