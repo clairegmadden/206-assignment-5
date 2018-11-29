@@ -16,6 +16,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 library(tidyverse)
 library(ggplot2)
+library(reshape2)
 
 # read in data
 
@@ -118,12 +119,31 @@ test_emp
 ```
 
 
+
+
+```{r}
+
+data_melt <- melt(median_salary[c('field', 'male_pd', 'female_pd', 'male_emp', 'female_emp')], id.vars = 1)
+
+```
+
+
 ```{r}
 # make side by side column graphs of median salary for each field in post doc
 
 # maybe make a new dataframe first
 
 
+pd_data <- data_melt %>% 
+  filter(variable == "female_pd" | variable == "male_pd")
+
+
+pd_graph <- ggplot(pd_data, aes(x = field, y = value))+
+  geom_col(aes(fill = variable), position = "dodge")
+  
+  
+
+pd_graph
 
 ```
 
@@ -134,8 +154,14 @@ test_emp
 # make side by side column graphs of median salary for each field in employed
 
 
+emp_data <- data_melt %>% 
+  filter(variable == "female_emp" | variable == "male_emp")
 
 
+emp_graph <- ggplot(emp_data, aes(x = field, y = value))+
+  geom_col(aes(fill = variable), position = "dodge")
+
+emp_graph
 
 ```
 
