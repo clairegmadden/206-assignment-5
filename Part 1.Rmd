@@ -54,7 +54,7 @@ plot(lm_females)
 
 ```
 
-```{r}
+```{r, warning = FALSE}
 #Plot both models
 
 enroll_model_graph <- ggplot(enroll, aes(x = year)) +
