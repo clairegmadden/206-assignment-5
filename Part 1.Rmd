@@ -30,6 +30,44 @@ enroll_graph <- ggplot(enroll, aes(x = year)) +
 enroll_graph  
   
   
-  
+```
+
+```{r}
+#Regression models for each
+
+lm_males <- lm(total_males ~ year, data = enroll)
+
+summary(lm_males)
+
+lm_females <- lm(total_females ~ year, data = enroll)
+
+summary(lm_females)
+
+```
+
+```{r}
+#Look at residuals for each
+
+plot(lm_males)
+
+plot(lm_females)
+
+```
+
+```{r}
+#Plot both models
+
+enroll_model_graph <- ggplot(enroll, aes(x = year)) +
+  geom_point(aes(y = total_males, color = "total_males")) +
+  geom_smooth(aes(y = total_males), method = lm, se = TRUE, size = 0.5, color = "gray20") +
+  geom_point(aes(y = total_females, color = "total_females")) +
+  geom_smooth(aes(y = total_females), method = lm, se = TRUE, size = 0.5, color = "gray20") +
+  theme_bw() +
+  scale_x_continuous(expand = c(0,0), limits = c(1967, 2015)) +
+  labs(x = "Year", y = "Enrollment")
+
+enroll_model_graph
+
+
 ```
 
