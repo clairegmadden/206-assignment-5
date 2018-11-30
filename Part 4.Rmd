@@ -220,3 +220,24 @@ summary(sal_lm6)
 
 ```
 
+```{r stargazer, results = 'asis'}
+#I think model 4 is the best option, with just rank, discipline, and gender, so I'm making a table for that here. Can be changed easily to another of the models if needed
+
+#First, I think it's nicer to have assistant professor be the reference level
+
+faculty_salaries$Rank <- factor(faculty_salaries$Rank)
+
+faculty_salaries$Rank <- fct_relevel(faculty_salaries$Rank, "AsstProf")
+
+
+sal_lm4 <- lm(Salary ~ Rank + Discipline + Sex, data = faculty_salaries)
+
+summary(sal_lm4)
+
+#Now making the table
+
+sal_lm_table <- stargazer(sal_lm4, type = "html")
+
+sal_lm_table
+```
+
