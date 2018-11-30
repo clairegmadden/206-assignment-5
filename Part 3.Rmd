@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, message=FALSE}
 # load packages
 
 
@@ -18,14 +18,14 @@ library(tidyverse)
 library(ggplot2)
 library(reshape2)
 library(dplyr)
-
+library(RColorBrewer)
 # read in data
 
 median_salary <- read_csv("Median salary for doctoral recipients.csv")
 
 ```
 
-```{r}
+```{r, include = FALSE}
 # exploration of data
 
 # male employed
@@ -85,7 +85,7 @@ qq_female_pd
 
 
 
-```{r}
+```{r, include = FALSE, message=FALSE, warning=FALSE}
 # Does median salary differ significantly between male and female starting postdoc positions?
 
 test_pd <- wilcox.test(median_salary$male_pd, median_salary$female_pd, paired = TRUE)
@@ -101,7 +101,7 @@ test_pd
 
 
 
-```{r}
+```{r, include = FALSE, message=FALSE, warning=FALSE}
 # Does median salary differ significantly between male and female PhD recipients in non-postdoc employment positions?
 
 test_emp <- wilcox.test(median_salary$male_emp, median_salary$female_emp, paired = TRUE)
@@ -122,14 +122,14 @@ test_emp
 
 
 
-```{r}
+```{r,include = FALSE, message=FALSE, warning=FALSE}
 
 data_melt <- melt(median_salary[c('field', 'male_pd', 'female_pd', 'male_emp', 'female_emp')], id.vars = 1)
 
 ```
 
 
-```{r}
+```{r, echo=FALSE}
 # make side by side column graphs of median salary for each field in post doc
 
 # maybe make a new dataframe first
@@ -141,6 +141,7 @@ pd_data <- data_melt %>%
 pd_graph <- ggplot(pd_data, aes(x = field, y = value))+
   geom_col(aes(fill = variable), position = "dodge")+
   theme_classic()+
+  scale_fill_manual(values = c("plum4", "slategray3"))+
   scale_y_continuous(expand = c(0,0),
                      limits = c(0,70000),
                      breaks = seq(0,70000, by = 10000))+ 
@@ -160,7 +161,7 @@ pd_graph
 
 
 
-```{r}
+```{r, echo=FALSE}
 # make side by side column graphs of median salary for each field in employed
 
 
@@ -170,6 +171,7 @@ emp_data <- data_melt %>%
 
 emp_graph <- ggplot(emp_data, aes(x = field, y = value))+
   geom_col(aes(fill = variable), position = "dodge")+
+  scale_fill_manual(values = c("plum4", "slategray3"))+
   theme_classic()+
   scale_y_continuous(expand = c(0,0),
                      limits = c(0,125000),
@@ -184,7 +186,7 @@ emp_graph
 
 
 
-```{r, fig.width=3, fig.height=4}
+```{r, echo=FALSE}
 # add box plot with each column
 
 colnames(data_melt) <- c("Field", "GenderEmployment", "Salary")
