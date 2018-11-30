@@ -9,7 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r}
+```{r, echo = FALSE, include=FALSE}
 
 #Load Necessary packages
 
@@ -19,7 +19,7 @@ library(kableExtra)
 
 ```
 
-```{r}
+```{r echo = FALSE, include=FALSE, message=FALSE}
 # Read in CSV file of female PhD data
 
 phd <- read_csv("female_phd.csv") 
@@ -28,7 +28,7 @@ phd2 <- read_csv("phd_table_part2.csv")
 ```
 
 
-```{r}
+```{r echo = FALSE, include=FALSE}
 #Creating subsets of degrees awarded by year in each field. Not sure we need this.
 
 phd_phys <- phd %>% 
@@ -50,7 +50,7 @@ phd_art <- phd %>%
 ```
 
 
-```{r}
+```{r echo = FALSE}
 
 # Bar graph showing total number of degrees, rather than percentage of a whole
 phd_bar <- ggplot(phd, aes(fill = Field, x = Year, y = Degrees))+
@@ -59,14 +59,13 @@ phd_bar <- ggplot(phd, aes(fill = Field, x = Year, y = Degrees))+
   scale_x_continuous(expand = c(0,0), breaks = seq(1985,2015, by = 15))+
   scale_y_continuous(expand = c(0,0))
 
-phd_bar
-
 #Bar graph showing number of degrees in each field as a percentage of the whole
 phd_bar_pct <- ggplot(phd, aes(fill = Field, x = Year, y = Degrees))+
   geom_bar(stat = "identity", position="fill")+
   theme_classic()+
   scale_x_continuous(expand = c(0,0), breaks = seq(1985,2015, by = 15))+
-  scale_y_continuous(expand = c(0,0))
+  scale_y_continuous(expand = c(0,0))+
+  labs(x = "Year", y = "Proportion of Degrees Awarded")
 
 phd_bar_pct
 
@@ -91,3 +90,5 @@ phd_x2
 #I think we should probably include the bar plot showing percentage of the whole, and the table showing raw numbers of degrees in each year, to give two different perspectives on the same story.
 
 ```
+
+**Figure X: Female PhD Recipients by Field (1985, 2000, 2015)** Proportion of doctoral degrees awarded to women in the fields of Education, Engineering, Humanities and 
