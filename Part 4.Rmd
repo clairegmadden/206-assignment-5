@@ -9,7 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r}
+```{r, include = FALSE}
 #Load packages
 
 library(tidyverse)
@@ -21,7 +21,7 @@ library(car)
 faculty_salaries <- read_csv("faculty data edited.csv")
 ```
 
-```{r}
+```{r, include = FALSE}
 #Some initial data exploration to get an early sense of any trends
 
 #Salary by gender
@@ -83,7 +83,7 @@ sal_discipline_mean <- faculty_salaries %>%
 
 ```
 
-```{r}
+```{r, include = FALSE}
 #Exploring possibilities of collinearity (focusing on years PhD, years of service)
 
 col_df <- faculty_salaries %>% 
@@ -96,7 +96,7 @@ pairs(col_df)
 ```
 
 
-```{r}
+```{r, include = FALSE}
 #Creating a saturated model for salary, including all variables:
 
 #Rank - professor, associate professor, assistant professor
@@ -127,7 +127,7 @@ summary(sal_lm1)
 
 ```
 
-```{r}
+```{r, include = FALSE}
 #Another model, this time using years_service and not years_phd
 
 sal_lm2 <- lm(Salary ~ Rank + Discipline + Sex + Years_Service, data = faculty_salaries)
@@ -137,7 +137,7 @@ summary(sal_lm2)
 #Still weird that there is a negative coefficient for years of service - doesn't make sense!
 ```
 
-```{r}
+```{r, include = FALSE}
 #What about a model with years since phd, instead of years of service?
 
 sal_lm3 <- lm(Salary ~ Rank + Discipline + Sex + Years_PhD, data = faculty_salaries)
@@ -147,7 +147,7 @@ summary(sal_lm3)
 #Positive coefficient for years since PhD, so better!
 ```
 
-```{r}
+```{r, include = FALSE}
 #Now a model with only rank, discipline, and sex (not using years since PhD or years of service)
 
 sal_lm4 <- lm(Salary ~ Rank + Discipline + Sex, data = faculty_salaries)
@@ -156,7 +156,7 @@ summary(sal_lm4)
 ```
 
 
-```{r}
+```{r, include = FALSE}
 #Model diagnostics
 
 #For lm1 (saturated model)
@@ -180,7 +180,7 @@ plot(sal_lm4)
 #For the q-q, upper tail could be influenced that as rank/years get high, salaries start to increase non-linearly
 ```
 
-```{r}
+```{r, include = FALSE}
 #VIF for each model
 
 vif(sal_lm1)
@@ -201,7 +201,7 @@ lm3_aic <- AIC(sal_lm3) #9097.21
 lm4_aic <- AIC(sal_lm4) #9095.45
 ```
 
-```{r}
+```{r, include = FALSE}
 #What about trying two models with interaction terms 
 
 sal_lm5 <- lm(Salary ~ Rank + Sex + Discipline + Years_Service + Discipline*Years_Service, data = faculty_salaries)
@@ -211,7 +211,7 @@ summary(sal_lm5)
 
 ```
 
-```{r}
+```{r, include = FALSE}
 #What about taking out rank and leaving in one of the years?
 
 sal_lm6 <- lm(Salary ~ Discipline + Sex + Years_Service, data = faculty_salaries)
@@ -220,10 +220,8 @@ summary(sal_lm6)
 
 ```
 
-```{r stargazer, results = 'asis'}
-#I think model 4 is the best option, with just rank, discipline, and gender, so I'm making a table for that here. Can be changed easily to another of the models if needed
-
-#First, I think it's nicer to have assistant professor be the reference level
+```{r, include = FALSE}
+#I think it's nicer to have assistant professor be the reference level
 
 faculty_salaries$Rank <- factor(faculty_salaries$Rank)
 
@@ -234,10 +232,18 @@ sal_lm4 <- lm(Salary ~ Rank + Discipline + Sex, data = faculty_salaries)
 
 summary(sal_lm4)
 
-#Now making the table
+```
 
-sal_lm_table <- stargazer(sal_lm4, type = "html")
+```{r stargazer, results = 'asis', header = FALSE, echo = FALSE}
+#stargazer table
 
-sal_lm_table
+stargazer(sal_lm4, 
+          type = 'html', 
+          digits = 3,
+          style = "aer",
+          title = "Table X: Faculty Salary Regression Results", 
+          dep.var.labels = c("Salary"),
+          covariate.labels = c("Assoc. Professor", "Professor", "Applied Discipline", "Male"))
+
 ```
 
