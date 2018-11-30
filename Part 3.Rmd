@@ -98,6 +98,7 @@ test_pd
 
 ```
 
+There is no significant difference between male and female median salary in post doc employment witin each field of study [PVALUE]
 
 
 
@@ -119,7 +120,7 @@ test_emp
 
 ```
 
-
+A comparison of median salary for the non post doc employment group demonstrated a significant difference [PVALUE..] in male vs. female median salary within each discipline group. 
 
 
 ```{r,include = FALSE, message=FALSE, warning=FALSE}
@@ -145,7 +146,7 @@ pd_graph <- ggplot(pd_data, aes(x = field, y = value))+
   scale_y_continuous(expand = c(0,0),
                      limits = c(0,70000),
                      breaks = seq(0,70000, by = 10000))+ 
-  theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 6))+
+  theme(axis.text.x = element_text(angle = 55, hjust = 1, size = 5))+
   labs(x = "Field of Study", y = "Median Salary ($)")
   
 
@@ -196,14 +197,14 @@ colnames(data_melt) <- c("Field", "GenderEmployment", "Salary")
 box_plot <- ggplot(data_melt, aes(x = GenderEmployment, y = Salary, fill = GenderEmployment))+
   geom_boxplot(show.legend = FALSE)+
   theme_bw()+
+  scale_fill_manual(values = c("lightblue3", "lightblue4", "tomato3", "tomato4"))+
   labs(y = "Median Salary Across Fields ($)", x = "Group")+
   scale_y_continuous(expand = c(0,0),
                      limits = c(30000,125000))+
   scale_x_discrete(labels = c("male_pd" = "Male \nPost Doc \nEmployment",
                               "female_pd" = "Female \nPost Doc \nEmployment",
-                              "male_emp" = "Male Non \nPost Doc",
-                              "female_emp" = "Female Non \nPost Doc"))+
-   theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 8))
+                              "male_emp" = "Male \nNon Post Doc \nEmployment",
+                              "female_emp" = "Female \nNon Post Doc \nEmployment"))
   
 
 box_plot
