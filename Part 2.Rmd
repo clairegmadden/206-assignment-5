@@ -68,7 +68,7 @@ phd_bar_pct <- ggplot(phd, aes(fill = Field, x = Year, y = Degrees))+
   scale_y_continuous(expand = c(0,0))+
   labs(x = "Year", y = "Proportion of Degrees Awarded")
 
-phd_bar_pct
+#I wonder if there's a way to include percentages on this bar graph?
 
 #Table for the data in part 2
 
@@ -90,4 +90,14 @@ phd_x2 <- chisq.test(phd2)
 
 ```
 
-**Figure X: Female PhD Recipients by Field (1985, 2000, 2015)** Proportion of doctoral degrees awarded to women in the fields of Education, Engineering, Humanities and Arts, and Physical and Earth Science. See Table X for raw numbers of degrees awarded in each field every year. Proportion of recipients in each field varied significantly by year ($\chi^2$(`r phd_x2$parameter`) = `r round(phd_x2$statistic, 0)`,  p < 0.001. 
+The pattern of doctoral degrees awarded to women changed significantly between 1985 and 2015 [Chi2 (8) = 2360, p < .001].  Figure X shows the proportion of degrees awarded in the fields of Education, Physical and Earth Sciences, Engineering, and Education in 1985, 2000, and 2015.  In 1985, a large majority of PhDs (61.8%) were awarded to women in Education and Humanities and Arts (24.6%), while only 13.6% were awarded to women in the fields of Engineering or Physical and Earth Science.  By 2015, the ratio was much more balanced, as can be seen in Figure X.  The largest share of degrees was still awarded to Education (33.0%), but the smallest share, Physical and Earth Sciences, is now 18.7% of all degrees awarded in these four fields.  
+
+There are some interesting trends to note within each field, as can be seen in Figure X and Table X.  Engineering degrees had the largest increase by a significant margin, rising 1,162% from 1985 to 2015.  Degrees awarded in Physical and Earth Sciences nearly doubled between 1985 and 2000, and then nearly doubled again by 2015.  Collectively, degrees awarded in these hard sciences increased by 459.2% from 1985 to 2015.  In contrast, Degrees awarded in Education increased 19.7% between 1985 and 2000, but then decreased back to essentially the same 1985 quantity in 2015.  Degrees awarded to women in Humanities and Arts doubled from 1985 to 2015, but most of this growth happened between 1985 and 2000.  Though the number of degrees awarded increased in all fields, the most significant trend we observe in this data is the dramatic growth in degrees awarded to women in the hard sciences.  
+
+```{r, echo=FALSE}
+
+phd_bar_pct
+```
+
+
+**Figure X: Female PhD Recipients by Field (1985, 2000, 2015)** Proportion of doctoral degrees awarded to women in the fields of Education, Engineering, Humanities and Arts, and Physical and Earth Science. See Table X for raw numbers of degrees awarded in each field every year. Proportion of recipients in each field varied significantly by year [($\chi^2$(`r phd_x2$parameter`) = `r round(phd_x2$statistic, 0)`,  p < 0.001.]
