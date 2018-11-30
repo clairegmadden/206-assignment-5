@@ -17,6 +17,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(ggplot2)
 library(reshape2)
+library(dplyr)
 
 # read in data
 
@@ -139,12 +140,22 @@ pd_data <- data_melt %>%
 
 
 pd_graph <- ggplot(pd_data, aes(x = field, y = value))+
-  geom_col(aes(fill = variable), position = "dodge")
-  
+  geom_col(aes(fill = variable), position = "dodge")+
+  theme_classic()+
+  scale_y_continuous(expand = c(0,0),
+                     limits = c(0,70000),
+                     breaks = seq(0,70000, by = 10000))+ 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 6))+
+  labs(x = "Field of Study", y = "Median Salary ($)")
   
 
 pd_graph
 
+# QUESTIONS/OPINIONS
+# do we need the legend or can we explain in the figure caption?
+# should i try to shorten the names of the fields or is the angle enough?
+# is it counterintuitive that female is blue and male is pink #breakinggendernorms
+# 
 ```
 
 
@@ -159,7 +170,13 @@ emp_data <- data_melt %>%
 
 
 emp_graph <- ggplot(emp_data, aes(x = field, y = value))+
-  geom_col(aes(fill = variable), position = "dodge")
+  geom_col(aes(fill = variable), position = "dodge")+
+  theme_classic()+
+  scale_y_continuous(expand = c(0,0),
+                     limits = c(0,125000),
+                     breaks = seq(0,125000, by = 20000))+ 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 6))+
+  labs(x = "Field of Study", y = "Median Salary ($)")
 
 emp_graph
 
@@ -171,10 +188,21 @@ emp_graph
 ```{r}
 # add box plot with each column
 
-box_plot <- ggplot(data_melt, aes(x = variable, y = value, fill = variable))+
-  geom_boxplot()
+colnames(data_melt) <- c("Field", "GenderEmployment", "Salary")
+
+
+
+box_plot <- ggplot(data_melt, aes(x = GenderEmployment, y = Salary, fill = GenderEmployment))+
+  geom_boxplot(show.legend = FALSE)+
+  theme_bw()+
+  labs(y = "Median Salary ($)", x = "Group")+
+  scale_y_continuous(expand = c(0,0),
+                     limits = c(30000,125000))
+  
 
 box_plot
+
+# how do i reassign the values in a column (change male_pd to Male Post Doc Employment)?
 
 
 ```
