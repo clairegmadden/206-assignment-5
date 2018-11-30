@@ -49,6 +49,7 @@ phd_art <- phd %>%
 
 ```
 
+**Figure X: Female PhD Recipients by Field (1985, 2000, 2015)** Number of doctoral degrees awarded to women in the fields of Physical and Earth Sciences, Engineering, Education, and Humanities and Arts in the years 1985, 2000, and 2015.
 
 ```{r echo = FALSE}
 
@@ -81,8 +82,6 @@ phd_table
 
 phd_x2 <- chisq.test(phd2)
 
-phd_x2
-
 #p < .0001, reject null. Enrollment proportion does differ significantly between years.
 
 # Do we want to include percentage of the whole for each year in this table?
@@ -91,4 +90,4 @@ phd_x2
 
 ```
 
-**Figure X: Female PhD Recipients by Field (1985, 2000, 2015)** Proportion of doctoral degrees awarded to women in the fields of Education, Engineering, Humanities and 
+**Figure X: Female PhD Recipients by Field (1985, 2000, 2015)** Proportion of doctoral degrees awarded to women in the fields of Education, Engineering, Humanities and Arts, and Physical and Earth Science. See Table X for raw numbers of degrees awarded in each field every year. Proportion of recipients in each field varied significantly by year ($\chi^2$(`r phd_x2$parameter`) = `r round(phd_x2$statistic, 0)`,  p < 0.001. 
