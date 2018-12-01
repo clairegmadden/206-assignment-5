@@ -19,6 +19,8 @@ library(ggplot2)
 library(reshape2)
 library(dplyr)
 library(RColorBrewer)
+library(effsize)
+
 # read in data
 
 median_salary <- read_csv("Median salary for doctoral recipients.csv")
@@ -96,9 +98,15 @@ test_pd
 
 # non significant p value
 
-```
+# cliff's delta
 
-There is no significant difference between male and female median salary in post doc employment witin each field of study [PVALUE]
+cd_pd <- cliff.delta(median_salary$male_pd, median_salary$female_pd)
+
+cd_pd
+
+# cliff's delta = 0.04 (negligible)
+
+```
 
 
 
@@ -115,12 +123,18 @@ test_emp
 
 # significant p value = 0.00257 
 
+# cliff's delta
+
+cd_emp <- cliff.delta(median_salary$male_emp, median_salary$female_emp)
+
+cd_emp
 
 
+# cliff's delta = 0.213 (small)
 
 ```
 
-A comparison of median salary for the non post doc employment group demonstrated a significant difference [PVALUE..] in male vs. female median salary within each discipline group. 
+
 
 
 ```{r,include = FALSE, message=FALSE, warning=FALSE}
@@ -144,7 +158,7 @@ pd_graph <- ggplot(pd_data, aes(x = field, y = value))+
   theme_classic()+
   scale_fill_manual(values = c("plum4", "slategray3"),
                     name = "Group",
-                    labels = c("Male Post Doc", "Female Post Doc"
+                    labels = c("Male Post Doc Study", "Female Post Doc Study"
                     ))+
   scale_y_continuous(expand = c(0,0),
                      limits = c(0,70000),
@@ -161,7 +175,7 @@ pd_graph
 # 
 ```
 
-
+**Figure X. Median Salary for Males and Females in Post Doc Study by Field.** Distribution of median salary for males and females working in positions of post doctoratal study seperated by discipline in 2015. There is no significant difference between male and female median salaries within each field [W=19.5, p=0.89]. 
 
 
 ```{r, echo=FALSE}
@@ -176,7 +190,7 @@ emp_graph <- ggplot(emp_data, aes(x = field, y = value))+
   geom_col(aes(fill = variable), position = "dodge")+
   scale_fill_manual(values = c("plum4", "slategray3"),
                     name = "Group",
-                    labels = c("Male Non Post Doc", "Female Non Post Doc"))+
+                    labels = c("Male Post Doc Employment", "Female Post Doc Employment"))+
   theme_classic()+
   scale_y_continuous(expand = c(0,0),
                      limits = c(0,125000),
@@ -188,6 +202,7 @@ emp_graph
 
 ```
 
+**Figure X. Median Salary for Males and Females in Post Doc Employment by Field.** Distribution of median salary for males and females working in post doctoratal employment seperated by discipline in 2015. There is no significant difference between male and female median salaries within each field [W=101, p=0.0026]. 
 
 
 
@@ -205,10 +220,10 @@ box_plot <- ggplot(data_melt, aes(x = GenderEmployment, y = Salary, fill = Gende
   labs(y = "Median Salary Across Fields ($)", x = "Group")+
   scale_y_continuous(expand = c(0,0),
                      limits = c(30000,125000))+
-  scale_x_discrete(labels = c("male_pd" = "Male \nPost Doc \nEmployment",
-                              "female_pd" = "Female \nPost Doc \nEmployment",
-                              "male_emp" = "Male \nNon Post Doc \nEmployment",
-                              "female_emp" = "Female \nNon Post Doc \nEmployment"))
+  scale_x_discrete(labels = c("male_pd" = "Male \nPost Doc \nStudy",
+                              "female_pd" = "Female \nPost Doc \nStudy",
+                              "male_emp" = "Male \n Post Doc \nEmployment",
+                              "female_emp" = "Female \n Post Doc \nEmployment"))
   
 
 box_plot
@@ -216,4 +231,8 @@ box_plot
 
 
 ```
+
+**Figure X. Median Salary by Sex and Post Doc Plans.** Distribution of median salary by sex and post doctoral plans for all fields. 
+
+
 
