@@ -9,43 +9,55 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r}
+```{r, include=FALSE}
 #Load packages
 
 library(tidyverse)
 
 #Load data
 
-enroll <- read_csv("grad enrollment edited.csv")
+enroll <- read_csv("enrollment final edited.csv")
 
 ```
 
-```{r, warning = FALSE}
+```{r, include=FALSE}
 #Visualize the trends in the raw data
 
-enroll_graph <- ggplot(enroll, aes(x = year)) +
-  geom_line(aes(y = total_males, color = "total_males")) +
-  geom_line(aes(y = total_females, color = "total_females"))
+enroll_graph <- ggplot(enroll, aes(x = Year)) +
+  geom_line(aes(y = Males, color = "Males")) +
+  geom_line(aes(y = Females, color = "Females"))
   
 enroll_graph  
   
   
 ```
 
-```{r}
+```{r, include = FALSE}
 #Regression models for each
 
-lm_males <- lm(total_males ~ year, data = enroll)
+lm_males <- lm(Males ~ Year, data = enroll)
 
 summary(lm_males)
 
-lm_females <- lm(total_females ~ year, data = enroll)
+lm_females <- lm(Females ~ Year, data = enroll)
 
 summary(lm_females)
 
 ```
 
-```{r}
+```{r, include = FALSE}
+#Pearson's R
+
+male_cor = cor.test(enroll$Year, enroll$Males)
+male_cor
+
+female_cor = cor.test(enroll$Year, enroll$Females)
+female_cor
+
+```
+
+
+```{r, include=FALSE}
 #Look at residuals for each
 
 plot(lm_males)
@@ -54,20 +66,22 @@ plot(lm_females)
 
 ```
 
-```{r, warning = FALSE}
+```{r, echo=FALSE, warning = FALSE}
 #Plot both models
 
-enroll_model_graph <- ggplot(enroll, aes(x = year)) +
-  geom_point(aes(y = total_males, color = "total_males")) +
-  geom_smooth(aes(y = total_males), method = lm, se = TRUE, size = 0.5, color = "gray20") +
-  geom_point(aes(y = total_females, color = "total_females")) +
-  geom_smooth(aes(y = total_females), method = lm, se = TRUE, size = 0.5, color = "gray20") +
-  theme_bw() +
-  scale_x_continuous(expand = c(0,0), limits = c(1967, 2015)) +
-  labs(x = "Year", y = "Enrollment")
+enroll_model_graph <- ggplot(enroll, aes(x = Year)) +
+  geom_point(aes(y = Males, color = "Males")) +
+  geom_smooth(aes(y = Males), method = lm, se = TRUE, size = 0.5, color = "gray20") +
+  geom_point(aes(y = Females, color = "Females")) +
+  geom_smooth(aes(y = Females), method = lm, se = TRUE, size = 0.5, color = "gray20") +
+  theme_classic() +
+  theme(legend.justification=c(1,0), legend.position=c(0.25,0.7)) +
+  scale_x_continuous(expand = c(0,0), limits = c(1967, 2016)) +
+  labs(x = "Year", y = "Graduate Enrollment")
 
-enroll_model_graph
+enroll_model_graph + labs(colour = "Gender")
 
 
 ```
 
+**Figure X. Relationship between graduate enrollment and year for males and females.** Year significantly predicts total graduate enrollment for both males (b = 9069, t(47) = 16.6, p < 0.001) and females (b = 30,130, t(47) = 51.7, p < 0.001). The models explain a significant amount of variance in graduate enrollment for males (F(1,47) = 276, p < 0.001, R2 = 0.85) and females (F(1,47) = 2669, p < 0.001, R2 = 0.98). There is a strong correlation between year and enrollment for both males (Pearson's R = 0.92) and females (Pearson's R = 0.99) Gray region is the 95% confidence interval for the mean predicted value.
