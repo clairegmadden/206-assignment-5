@@ -77,8 +77,8 @@ qq_female_pd <- ggplot(median_salary, aes(sample = female_pd))+
 
 qq_female_pd
 
-# these are not looking to be very normally distributed, but because they are medians of a larget data set is it still okay to do t-test?
-# or should i use Mann - Whitney U (wilcoxon rank sum) test for rank? - risk loss of resolution
+# these are not looking to be very normally distributed
+# should i use Mann - Whitney U (wilcoxon rank sum) test for rank? - risk loss of resolution
 
 ```
 
@@ -175,7 +175,7 @@ pd_graph
 # 
 ```
 
-**Figure X. Median Salary for Males and Females in Post Doc Study by Field.** Distribution of median salary for males and females working in positions of post doctoratal study seperated by discipline in 2015. There is no significant difference between male and female median salaries within each field [W=19.5, p=0.89]. 
+**Figure X. Median Salary for Males and Females in Post Doc Study by Field.** Distribution of median salary for males and females working in positions of post doctoratal study seperated by discipline in 2015. There is no significant difference between male and female median salaries within each field of study [W=19.5, p=0.89] (cliff's delta = 0.04 (negligible)). 
 
 
 ```{r, echo=FALSE}
@@ -202,7 +202,7 @@ emp_graph
 
 ```
 
-**Figure X. Median Salary for Males and Females in Post Doc Employment by Field.** Distribution of median salary for males and females working in post doctoratal employment seperated by discipline in 2015. There is no significant difference between male and female median salaries within each field [W=101, p=0.0026]. 
+**Figure X. Median Salary for Males and Females in Post Doc Employment by Field.** Distribution of median salary for males and females working in post doctoratal employment seperated by discipline in 2015. There is no significant difference between male and female median salaries within each field of study [W=101, p=0.0026] (cliff's delta = 0.213 (small)). 
 
 
 
@@ -216,7 +216,7 @@ colnames(data_melt) <- c("Field", "GenderEmployment", "Salary")
 box_plot <- ggplot(data_melt, aes(x = GenderEmployment, y = Salary, fill = GenderEmployment))+
   geom_boxplot(show.legend = FALSE)+
   theme_bw()+
-  scale_fill_manual(values = c("lightblue3", "lightblue4", "tomato3", "tomato4"))+
+  scale_fill_manual(values = c("lightblue3", "lightblue4", "plum3", "plum4"))+
   labs(y = "Median Salary Across Fields ($)", x = "Group")+
   scale_y_continuous(expand = c(0,0),
                      limits = c(30000,125000))+
@@ -232,7 +232,7 @@ box_plot
 
 ```
 
-**Figure X. Median Salary by Sex and Post Doc Plans.** Distribution of median salary by sex and post doctoral plans for all fields. 
+**Figure X. Median Salary by Sex and Post Doc Plans.** Distribution of median salary by sex and post doctoral plans for all fields. *what else??? no statistical test info to include on this one*
 
 
 
