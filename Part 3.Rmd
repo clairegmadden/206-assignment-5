@@ -142,7 +142,10 @@ pd_data <- data_melt %>%
 pd_graph <- ggplot(pd_data, aes(x = field, y = value))+
   geom_col(aes(fill = variable), position = "dodge")+
   theme_classic()+
-  scale_fill_manual(values = c("plum4", "slategray3"))+
+  scale_fill_manual(values = c("plum4", "slategray3"),
+                    name = "Group",
+                    labels = c("Male Post Doc", "Female Post Doc"
+                    ))+
   scale_y_continuous(expand = c(0,0),
                      limits = c(0,70000),
                      breaks = seq(0,70000, by = 10000))+ 
@@ -155,7 +158,6 @@ pd_graph
 # QUESTIONS/OPINIONS
 # do we need the legend or can we explain in the figure caption?
 # should i try to shorten the names of the fields or is the angle enough?
-# is it counterintuitive that female is blue and male is pink #breakinggendernorms
 # 
 ```
 
@@ -172,7 +174,9 @@ emp_data <- data_melt %>%
 
 emp_graph <- ggplot(emp_data, aes(x = field, y = value))+
   geom_col(aes(fill = variable), position = "dodge")+
-  scale_fill_manual(values = c("plum4", "slategray3"))+
+  scale_fill_manual(values = c("plum4", "slategray3"),
+                    name = "Group",
+                    labels = c("Male Non Post Doc", "Female Non Post Doc"))+
   theme_classic()+
   scale_y_continuous(expand = c(0,0),
                      limits = c(0,125000),
