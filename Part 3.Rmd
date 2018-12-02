@@ -170,8 +170,8 @@ pd_graph <- ggplot(pd_data, aes(x = field, y = value))+
 pd_graph
 
 # QUESTIONS/OPINIONS
-# do we need the legend or can we explain in the figure caption?
-# should i try to shorten the names of the fields or is the angle enough?
+# do we need the legend or can we explain in the figure caption? #I could go either way on the caption.
+# should i try to shorten the names of the fields or is the angle enough? #AP here: I think the Angle looks good!  
 # 
 ```
 
