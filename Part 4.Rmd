@@ -220,7 +220,7 @@ summary(sal_lm6)
 
 ```
 
-```{r, include = FALSE}
+```{r}
 #I think it's nicer to have assistant professor be the reference level
 
 faculty_salaries$Rank <- factor(faculty_salaries$Rank)
@@ -233,6 +233,10 @@ sal_lm4 <- lm(Salary ~ Rank + Discipline + Sex, data = faculty_salaries)
 summary(sal_lm4)
 
 ```
+
+Multiple linear regression was used to model faculty salaries, and it was found that a model incorporating Rank, Discipline, and Sex a significant amount of variance in salary (Salary ($) = 13723(Associate Professor) + 47403(Professor) + 13709(Applied Discipline) + 4492(Male), F(4,392) = 79.18, p < 0.001, R^2 = 0.45). Three different levels of rank are incorporated into the model: assistant professor, associate professor, and professor; the reference level in the model is assistant professor. On average, associate professors can be expected to make 13,723 more than assistant professors if other factors are held constant, with professors making the most at 47,403 more than assistant professors. Both theoretical(A) and applied(B) disciplines were considered for the model, with the reference level set to theoretical disciplines. On average, it appears as though faculty members working within applied disciplines will make 13,709 more than their colleagues in theoretical disciplines. Lastly, the model looks at the sex of the faculty, with the reference level of the model set to female. Male faculty make 4,492 more than females on average, with all other factors held constant. 
+
+Both rank and discipline appear to be significant drivers of the salary model (p values < 0.001). While the sex of the faculty members does affect average expected salary, it has less of a significant impact on the overall model. Future iterations of the model could include considerations for faculty research area, public or private universities, and size of the department or program. 
 
 ```{r stargazer, results = 'asis', header = FALSE, echo = FALSE}
 #stargazer table
