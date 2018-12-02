@@ -64,6 +64,7 @@ phd_bar <- ggplot(phd, aes(fill = Field, x = Year, y = Degrees))+
 phd_bar_pct <- ggplot(phd, aes(fill = Field, x = Year, y = Degrees))+
   geom_bar(stat = "identity", position="fill")+
   theme_classic()+
+  scale_fill_manual(values = c("lightblue3", "lightblue4", "plum3", "plum4"))+
   scale_x_continuous(expand = c(0,0), breaks = seq(1985,2015, by = 15))+
   scale_y_continuous(expand = c(0,0))+
   labs(x = "Year", y = "Proportion of Degrees Awarded")
