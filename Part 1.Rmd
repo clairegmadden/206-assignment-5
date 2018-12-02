@@ -66,6 +66,11 @@ plot(lm_females)
 
 ```
 
+Enrollment trends were modeled for both males and females using linear regression, with the model results and the raw data displayed in Figure X. Both models show that year significantly predicts enrollment for each gender (Male Enrollment = 9069x(year) - 17112153, Female Enrollment = 30,130x(year) - 5.896e+07).
+
+In 1967, there were 365,337 more males than females enrolled in graduate school. However, over the period of 1967 to 2015, the rate at which females enrolled as graduates exceeded that of males by more than 3x. For each subsequent year, the number of female students could be expected to increase on average by 30,130, while the number of males could be expected to increase by only 9,069. Overall enrollment was also steadily increasing during this time period, and females became the gender majority between 1987 and 1988. By 2015, the number of female graduate students exceeded males by 497,360.
+
+
 ```{r, echo=FALSE, warning = FALSE}
 #Plot both models
 
@@ -85,3 +90,4 @@ enroll_model_graph + labs(colour = "Gender")
 ```
 
 **Figure X. Relationship between graduate enrollment and year for males and females.** Year significantly predicts total graduate enrollment for both males (b = 9069, t(47) = 16.6, p < 0.001) and females (b = 30,130, t(47) = 51.7, p < 0.001). The models explain a significant amount of variance in graduate enrollment for males (F(1,47) = 276, p < 0.001, R2 = 0.85) and females (F(1,47) = 2669, p < 0.001, R2 = 0.98). There is a strong correlation between year and enrollment for both males (Pearson's R = 0.92) and females (Pearson's R = 0.99) Gray region is the 95% confidence interval for the mean predicted value.
+
