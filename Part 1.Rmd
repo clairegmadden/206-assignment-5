@@ -89,5 +89,5 @@ enroll_model_graph + labs(colour = "Gender")
 
 ```
 
-**Figure X. Relationship between graduate enrollment and year for males and females.** Year significantly predicts total graduate enrollment for both males (b = 9069, t(47) = 16.6, p < 0.001) and females (b = 30,130, t(47) = 51.7, p < 0.001). The models explain a significant amount of variance in graduate enrollment for males (F(1,47) = 276, p < 0.001, R2 = 0.85) and females (F(1,47) = 2669, p < 0.001, R2 = 0.98). There is a strong correlation between year and enrollment for both males (Pearson's R = 0.92) and females (Pearson's R = 0.99) Gray region is the 95% confidence interval for the mean predicted value.
+**Figure X. Relationship between graduate enrollment and year for males and females.** Gray region indicates the 95% confidence interval for the mean predicted value.Year significantly predicts total graduate enrollment for both males (b = 9069, t(47) = 16.6, p < 0.001) and females (b = 30,130, t(47) = 51.7, p < 0.001). The models explain a significant amount of variance in graduate enrollment for males (F(1,47) = 276, p < 0.001, R2 = 0.85) and females (F(1,47) = 2669, p < 0.001, R2 = 0.98). There is a strong correlation between year and enrollment for both males (Pearson's R = 0.92) and females (Pearson's R = 0.99). 
 
