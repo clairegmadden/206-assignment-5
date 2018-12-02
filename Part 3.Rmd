@@ -158,7 +158,7 @@ pd_graph <- ggplot(pd_data, aes(x = field, y = value))+
   theme_classic()+
   scale_fill_manual(values = c("plum4", "slategray3"),
                     name = "Group",
-                    labels = c("Male Post Doc Study", "Female Post Doc Study"
+                    labels = c("Male Postdoctoral Study", "Female Postdoctoral Study"
                     ))+
   scale_y_continuous(expand = c(0,0),
                      limits = c(0,70000),
@@ -175,7 +175,7 @@ pd_graph
 # 
 ```
 
-**Figure X. Median Salary for Males and Females in Post Doc Study by Field.** Distribution of median salary for males and females working in positions of post doctoratal study seperated by discipline in 2015. There is no significant difference between male and female median salaries within each field of study [W=19.5, p=0.89] (cliff's delta = 0.04 (negligible)). 
+**Figure X. Median Salary for Males and Females in Postdoctoral Study by Field.** Distribution of median salary for males and females working in positions of post doctoratal study seperated by discipline in 2015. There is no significant difference between male and female median salaries within each field of study [W=19.5, p=0.89] (cliff's delta = 0.04 (negligible)). 
 
 
 ```{r, echo=FALSE}
@@ -190,7 +190,7 @@ emp_graph <- ggplot(emp_data, aes(x = field, y = value))+
   geom_col(aes(fill = variable), position = "dodge")+
   scale_fill_manual(values = c("plum4", "slategray3"),
                     name = "Group",
-                    labels = c("Male Post Doc Employment", "Female Post Doc Employment"))+
+                    labels = c("Male Postdoctoral Employment", "Female Postdoctoral Employment"))+
   theme_classic()+
   scale_y_continuous(expand = c(0,0),
                      limits = c(0,125000),
@@ -202,7 +202,7 @@ emp_graph
 
 ```
 
-**Figure X. Median Salary for Males and Females in Post Doc Employment by Field.** Distribution of median salary for males and females working in post doctoratal employment seperated by discipline in 2015. There is no significant difference between male and female median salaries within each field of study [W=101, p=0.0026] (cliff's delta = 0.213 (small)). 
+**Figure X. Median Salary for Males and Females in Postdoctoral Employment by Field.** Distribution of median salary for males and females working in post doctoratal employment seperated by discipline in 2015. There is no significant difference between male and female median salaries within each field of study [W=101, p=0.0026] (cliff's delta = 0.213 (small)). 
 
 
 
@@ -232,7 +232,7 @@ box_plot
 
 ```
 
-**Figure X. Median Salary by Sex and Post Doc Plans.** Distribution of median salary by sex and post doctoral plans for all fields. *what else??? no statistical test info to include on this one*
+**Figure X. Median Salary by Sex and Postdoctoral Plans.** Distribution of median salary by sex and post doctoral plans for all fields. *what else??? no statistical test info to include on this one*
 
 
 
