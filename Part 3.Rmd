@@ -131,6 +131,7 @@ cd_emp
 
 
 # cliff's delta = 0.213 (small)
+# r output says small, my notes say maybe closer to medium
 
 ```
 
@@ -156,9 +157,9 @@ pd_data <- data_melt %>%
 pd_graph <- ggplot(pd_data, aes(x = field, y = value))+
   geom_col(aes(fill = variable), position = "dodge")+
   theme_classic()+
-  scale_fill_manual(values = c("plum4", "slategray3"),
+  scale_fill_manual(values = c("plum4", "lightblue3"),
                     name = "Group",
-                    labels = c("Male Postdoctoral Study", "Female Postdoctoral Study"
+                    labels = c("Male", "Female"
                     ))+
   scale_y_continuous(expand = c(0,0),
                      limits = c(0,70000),
@@ -177,8 +178,9 @@ pd_graph
 # 
 ```
 
-**Figure X. Median Salary for Males and Females in Postdoctoral Study by Field.** Distribution of median salary for males and females working in positions of post doctoratal study seperated by discipline in 2015. There is no significant difference between male and female median salaries within each field of study [W=19.5, p=0.89] (cliff's delta = 0.04 (negligible)). 
+**Figure X. Median Salary for Males and Females in Postdoctoral Study by Field.** Distribution of median salary for males and females working in positions of post doctoratal study seperated by discipline in 2015. There is no significant difference between male and female median salaries within each field of study [W=19.5, p=0.89] (cliff's delta = 0.04). 
 
+Male and female median salaries are equal in Biological and Biomedical Sciences, Chemistry, Economics, Engineering, Geoscience, Atmospheric and Ocean Sciences, Humanities and Arts, and Psychology. 
 
 ```{r, echo=FALSE}
 # make side by side column graphs of median salary for each field in employed
@@ -190,9 +192,9 @@ emp_data <- data_melt %>%
 
 emp_graph <- ggplot(emp_data, aes(x = field, y = value))+
   geom_col(aes(fill = variable), position = "dodge")+
-  scale_fill_manual(values = c("plum4", "slategray3"),
+  scale_fill_manual(values = c("plum4", "lightblue3"),
                     name = "Group",
-                    labels = c("Male Postdoctoral Employment", "Female Postdoctoral Employment"))+
+                    labels = c("Male", "Female"))+
   theme_classic()+
   scale_y_continuous(expand = c(0,0),
                      limits = c(0,125000),
@@ -204,37 +206,9 @@ emp_graph
 
 ```
 
-**Figure X. Median Salary for Males and Females in Postdoctoral Employment by Field.** Distribution of median salary for males and females working in post doctoratal employment seperated by discipline in 2015. There is no significant difference between male and female median salaries within each field of study [W=101, p=0.0026] (cliff's delta = 0.213 (small)). 
-
-**Isn't that a significant P-value?** - BG
-
-```{r, echo=FALSE}
-# add box plot with each column
-
-colnames(data_melt) <- c("Field", "GenderEmployment", "Salary")
+**Figure X. Median Salary for Males and Females in Postdoctoral Employment by Field.** Distribution of median salary for males and females working in post doctoratal employment seperated by discipline in 2015. There is a significant difference between male and female median salaries within each field of study [W=101, p=0.0026] (cliff's delta = 0.213). 
 
 
-
-box_plot <- ggplot(data_melt, aes(x = GenderEmployment, y = Salary, fill = GenderEmployment))+
-  geom_boxplot(show.legend = FALSE)+
-  theme_bw()+
-  scale_fill_manual(values = c("lightblue3", "lightblue4", "plum3", "plum4"))+
-  labs(y = "Median Salary Across Fields ($)", x = "Group")+
-  scale_y_continuous(expand = c(0,0),
-                     limits = c(30000,125000))+
-  scale_x_discrete(labels = c("male_pd" = "Male \nPost Doc \nStudy",
-                              "female_pd" = "Female \nPost Doc \nStudy",
-                              "male_emp" = "Male \n Post Doc \nEmployment",
-                              "female_emp" = "Female \n Post Doc \nEmployment"))
-  
-
-box_plot
-
-
-
-```
-
-**Figure X. Median Salary by Sex and Postdoctoral Plans.** Distribution of median salary by sex and post doctoral plans for all fields. *what else??? no statistical test info to include on this one*
-
+Male median salaries are equal to or greater than female median salaries in every field except Physics and Astronomy. The largest difference in median salaries between males and females is in Mathematics and Computer Sciences where men earn a median salary of \$105,000 and women earn a median salary of \$90,000, a difference of \$15,000. 
 
 
