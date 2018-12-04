@@ -178,9 +178,9 @@ pd_graph
 # 
 ```
 
-**Figure X. Median Salary for Males and Females in Postdoctoral Study by Field.** Distribution of median salary for males and females working in positions of post doctoratal study seperated by discipline in 2015. There is no significant difference between male and female median salaries within each field of study [W=19.5, p=0.89] (cliff's delta = 0.04). 
+**Figure X. Median Salary for Males and Females in Postdoctoral Study by Field.** Distribution of median salary for males and females working in positions of post doctoratal study seperated by discipline in 2015. There is no significant difference between male and female median salaries within each field of study [W=19.5, p=0.89] (cliff's delta = 0.04). Data used with permission from the National Science Foundation. 
 
-Male and female median salaries are equal in Biological and Biomedical Sciences, Chemistry, Economics, Engineering, Geoscience, Atmospheric and Ocean Sciences, Humanities and Arts, and Psychology. 
+Male and female median salaries are equal in Biological and Biomedical Sciences, Chemistry, Economics, Engineering, Geoscience, Atmospheric and Ocean Sciences, Humanities and Arts, and Psychology. Among the remaining fields of study, male median salaries are higher than female median salaries in only Education, Mathematics and Computer Science, and Other non-S&E Fields. The greatest difference in median salaries between males and females is within the category of Other non-S&E Fields, where male median income is $6,000 greater than female median income. 
 
 ```{r, echo=FALSE}
 # make side by side column graphs of median salary for each field in employed
@@ -206,9 +206,9 @@ emp_graph
 
 ```
 
-**Figure X. Median Salary for Males and Females in Postdoctoral Employment by Field.** Distribution of median salary for males and females working in post doctoratal employment seperated by discipline in 2015. There is a significant difference between male and female median salaries within each field of study [W=101, p=0.0026] (cliff's delta = 0.213). 
+**Figure X. Median Salary for Males and Females in Postdoctoral Employment by Field.** Distribution of median salary for males and females working in post doctoratal employment seperated by discipline in 2015. There is a significant difference between male and female median salaries within each field of study [W=101, p=0.0026] (cliff's delta = 0.213). Data used with permission from the National Science Foundation. 
 
 
-Male median salaries are equal to or greater than female median salaries in every field except Physics and Astronomy. The largest difference in median salaries between males and females is in Mathematics and Computer Sciences where men earn a median salary of \$105,000 and women earn a median salary of \$90,000, a difference of \$15,000. 
+Within the population of doctoral recipients that are employed, male median salaries are equal to or greater than female median salaries in every field except Physics and Astronomy. The largest difference in median salaries between males and females is in Mathematics and Computer Sciences where men earn a median salary of \$105,000 and women earn a median salary of \$90,000, a difference of \$15,000. 
 
 
