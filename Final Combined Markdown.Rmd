@@ -1,0 +1,650 @@
+---
+title: "Final Combined"
+author: "Bridget Gibbons"
+date: "12/3/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r, include=FALSE}
+#Load packages
+
+library(tidyverse)
+
+#Load data
+
+enroll <- read_csv("enrollment final edited.csv")
+
+```
+
+```{r, include=FALSE}
+#Visualize the trends in the raw data
+
+enroll_graph <- ggplot(enroll, aes(x = Year)) +
+  geom_line(aes(y = Males, color = "Males")) +
+  geom_line(aes(y = Females, color = "Females"))
+  
+enroll_graph  
+  
+  
+```
+
+```{r, include = FALSE}
+#Regression models for each
+
+lm_males <- lm(Males ~ Year, data = enroll)
+
+summary(lm_males)
+
+lm_females <- lm(Females ~ Year, data = enroll)
+
+summary(lm_females)
+
+```
+
+```{r, include = FALSE}
+#Pearson's R
+
+male_cor = cor.test(enroll$Year, enroll$Males)
+male_cor
+
+female_cor = cor.test(enroll$Year, enroll$Females)
+female_cor
+
+```
+
+
+```{r, include=FALSE}
+#Look at residuals for each
+
+plot(lm_males)
+
+plot(lm_females)
+
+```
+
+Enrollment trends were modeled for both males and females using linear regression, with the model results and the raw data displayed in Figure X. Both models show that year significantly predicts enrollment for each gender (Male Enrollment = 9069x(year) - 17112153, Female Enrollment = 30,130x(year) - 5.896e+07).
+
+In 1967, there were 365,337 more males than females enrolled in graduate school. However, over the period of 1967 to 2015, the rate at which females enrolled as graduates exceeded that of males by more than 3x. For each subsequent year, the number of female students could be expected to increase on average by 30,130, while the number of males could be expected to increase by only 9,069. Overall enrollment was also steadily increasing during this time period, and females became the gender majority between 1987 and 1988. By 2015, the number of female graduate students exceeded males by 497,360.
+
+
+```{r, echo=FALSE, warning = FALSE}
+#Plot both models
+
+enroll_model_graph <- ggplot(enroll, aes(x = Year)) +
+  geom_point(aes(y = Males, color = "Males")) +
+  geom_smooth(aes(y = Males), method = lm, se = TRUE, size = 0.5, color = "gray20") +
+  geom_point(aes(y = Females, color = "Females")) +
+  geom_smooth(aes(y = Females), method = lm, se = TRUE, size = 0.5, color = "gray20") +
+  scale_color_manual(values = c("lightblue3", "plum4"))+
+  theme_classic() +
+  theme(legend.justification=c(1,0), legend.position=c(0.25,0.7)) +
+  scale_x_continuous(expand = c(0,0), limits = c(1967, 2016)) +
+  labs(x = "Year", y = "Graduate Enrollment")
+
+enroll_model_graph + labs(colour = "Gender")
+
+
+```
+
+**Figure X. Relationship between graduate enrollment and year for males and females.** Gray region indicates the 95% confidence interval for the mean predicted value.Year significantly predicts total graduate enrollment for both males (b = 9069, t(47) = 16.6, p < 0.001) and females (b = 30,130, t(47) = 51.7, p < 0.001). The models explain a significant amount of variance in graduate enrollment for males (F(1,47) = 276, p < 0.001, R2 = 0.85) and females (F(1,47) = 2669, p < 0.001, R2 = 0.98). There is a strong correlation between year and enrollment for both males (Pearson's R = 0.92) and females (Pearson's R = 0.99). 
+
+
+```{r, echo = FALSE, include=FALSE}
+
+#Load Necessary packages
+
+library(tidyverse) 
+library(ggplot2)
+library(kableExtra)
+
+```
+
+```{r echo = FALSE, include=FALSE, message=FALSE}
+# Read in CSV file of female PhD data
+
+phd <- read_csv("female_phd.csv") 
+phd2 <- read_csv("phd_table_part2.csv")
+phd_prop <- read_csv("phd_proportions.csv")
+
+```
+
+
+```{r echo = FALSE, include=FALSE}
+#Creating subsets of degrees awarded by year in each field. Not sure we need this.
+
+phd_phys <- phd %>% 
+  filter(Field == "Physical and Earth Science") %>% 
+  select(Year, Degrees)
+
+phd_eng <- phd %>% 
+  filter(Field == "Engineering")%>% 
+  select(Year, Degrees)
+
+phd_ed <- phd %>% 
+  filter(Field == "Education")%>% 
+  select(Year, Degrees)
+
+phd_art <- phd %>% 
+  filter(Field == "Humanities and arts")%>% 
+  select(Year, Degrees)
+
+```
+
+**Table X: Female PhD Recipients by Field (1985, 2000, 2015)** Number of doctoral degrees awarded to women in the fields of Physical and Earth Sciences, Engineering, Education, and Humanities and Arts in the years 1985, 2000, and 2015.
+
+```{r echo = FALSE}
+
+# Bar graph showing total number of degrees, rather than percentage of a whole
+phd_bar <- ggplot(phd, aes(fill = Field, x = Year, y = Degrees))+
+  geom_bar(stat = "identity")+
+  theme_classic()+
+  scale_x_continuous(expand = c(0,0), breaks = seq(1985,2015, by = 15))+
+  scale_y_continuous(expand = c(0,0))
+
+#Bar graph showing number of degrees in each field as a percentage of the whole
+phd_bar_pct <- ggplot(phd, aes(fill = Field, x = Year, y = Degrees))+
+  geom_bar(stat = "identity", position="fill")+
+  theme_classic()+
+  scale_fill_manual(values = c("lightblue3", "lightblue4", "plum3", "plum4"))+
+  scale_x_continuous(expand = c(0,0), breaks = seq(1985,2015, by = 15))+
+  scale_y_continuous(expand = c(0,0))+
+  labs(x = "Year", y = "Proportion of Degrees Awarded")
+
+#I wonder if there's a way to include percentages on this bar graph?
+
+#Table for the data in part 2
+
+phd_table <- kable(phd2, col.names = c("Year", "Physical and Earth Sciences", "Engineering", "Education", "Humanities and Arts"), align = "c") %>% 
+  kable_styling(bootstrap_options = c("striped"), full_width = FALSE)
+
+phd_prop_table <- kable(phd_prop, col.names = c("Year", "Physical and Earth Sciences", "Engineering", "Education", "Humanities and Arts"), align = "c") %>% 
+  kable_styling(bootstrap_options = c("striped"), full_width = FALSE)
+
+phd_table
+
+#Chi squared
+#H0: No significant difference in enrollment proportions in different years
+
+phd_x2 <- chisq.test(phd2)
+
+#p < .0001, reject null. Enrollment proportion does differ significantly between years.
+
+# Do we want to include percentage of the whole for each year in this table?
+
+#I think we should probably include the bar plot showing percentage of the whole, and the table showing raw numbers of degrees in each year, to give two different perspectives on the same story.
+
+```
+
+**Table X: Proportions of Degrees Awarded by Year** The percentage of doctoral degrees awarded among the four subjects of Physical and Earth Sciences, Engineering, Education, and Humanities and Arts. Proportion of recipients in each field varied significantly by year [($\chi^2$(`r phd_x2$parameter`) = `r round(phd_x2$statistic, 0)`,  p < 0.001.]
+
+```{r, echo= FALSE}
+
+phd_prop_table
+
+```
+
+
+The ratio of doctoral degrees awarded to women changed significantly between 1985 and 2015 [$\chi^2$ (8) = 2360, p < .001].  Figure X shows the proportion of degrees awarded in the fields of Education, Physical and Earth Sciences, Engineering, and Education in 1985, 2000, and 2015.  In 1985, a large majority of PhDs were awarded to women in Education (61.8%) and Humanities and Arts (24.6%), while only 13.6% were awarded to women in the fields of Engineering or Physical and Earth Science.  By 2015, the ratio was much more balanced, as can be seen in Figure X.  The largest share of degrees was still awarded to women in Education (33.0%), but the smallest share, Physical and Earth Sciences, is now 18.7% of all degrees awarded in these four fields.  
+
+There are some interesting trends to note within each field, as can be seen in Figure X and Table X.  Engineering degrees had the largest increase by a significant margin, rising 1,162% from 1985 to 2015.  Degrees awarded in Physical and Earth Sciences nearly doubled between 1985 and 2000, and then nearly doubled again by 2015.  Collectively, degrees awarded in these hard sciences increased by 459.2% from 1985 to 2015.  In contrast, degrees awarded in Education increased 19.7% between 1985 and 2000, but then decreased back to essentially the same 1985 quantity in 2015.  Degrees awarded to women in Humanities and Arts doubled from 1985 to 2015, but most of this growth happened between 1985 and 2000.  Though the number of degrees awarded increased in all fields, the most significant trend we observe in this data is the dramatic growth in degrees awarded to women in the hard sciences.  
+
+```{r, echo=FALSE}
+
+phd_bar_pct
+```
+
+
+**Figure X: Female PhD Recipients by Field (1985, 2000, 2015)** Proportion of doctoral degrees awarded to women in the fields of Education, Engineering, Humanities and Arts, and Physical and Earth Science. See Table X for raw numbers of degrees awarded in each field every year, and Table X for exact proportions of degrees awarded to each field by year. 
+
+
+```{r, echo = FALSE, message=FALSE}
+# load packages
+
+
+library(tidyverse)
+library(ggplot2)
+library(reshape2)
+library(dplyr)
+library(RColorBrewer)
+library(effsize)
+
+# read in data
+
+median_salary <- read_csv("Median salary for doctoral recipients.csv")
+
+```
+
+```{r, include = FALSE}
+# exploration of data
+
+# male employed
+hist_male_emp <- ggplot(median_salary, aes(x = male_emp))+
+  geom_histogram(bins = 10)
+
+hist_male_emp
+
+qq_male_emp <- ggplot(median_salary, aes(sample = male_emp))+
+  geom_qq()
+
+qq_male_emp
+
+# female employed
+hist_female_emp <- ggplot(median_salary, aes(x = female_emp))+
+  geom_histogram(bins = 10)
+
+hist_female_emp
+
+qq_female_emp <- ggplot(median_salary, aes(sample = female_emp))+
+  geom_qq()
+
+qq_female_emp
+
+
+# male post doc
+
+hist_male_pd <- ggplot(median_salary, aes(x = male_pd))+
+  geom_histogram(bins = 10)
+
+hist_male_pd
+
+qq_male_pd <- ggplot(median_salary, aes(sample = male_pd))+
+  geom_qq()
+
+qq_male_pd
+
+# female post doc
+
+hist_female_pd <- ggplot(median_salary, aes(x = female_pd))+
+  geom_histogram(bins = 10)
+
+hist_female_pd
+
+qq_female_pd <- ggplot(median_salary, aes(sample = female_pd))+
+  geom_qq()
+
+qq_female_pd
+
+# these are not looking to be very normally distributed
+# should i use Mann - Whitney U (wilcoxon rank sum) test for rank? - risk loss of resolution
+
+```
+
+
+
+
+
+
+```{r, include = FALSE, message=FALSE, warning=FALSE}
+# Does median salary differ significantly between male and female starting postdoc positions?
+
+test_pd <- wilcox.test(median_salary$male_pd, median_salary$female_pd, paired = TRUE)
+
+test_pd
+
+# test received a warning message "cannot compute exact pvalue with ties"
+
+# non significant p value
+
+# cliff's delta
+
+cd_pd <- cliff.delta(median_salary$male_pd, median_salary$female_pd)
+
+cd_pd
+
+# cliff's delta = 0.04 (negligible)
+
+```
+
+
+
+```{r, include = FALSE, message=FALSE, warning=FALSE}
+# Does median salary differ significantly between male and female PhD recipients in non-postdoc employment positions?
+
+test_emp <- wilcox.test(median_salary$male_emp, median_salary$female_emp, paired = TRUE)
+
+test_emp
+
+
+# test received a warning message "cannot compute exact pvalue with ties"
+# need to find out why test is defaulting to continuity correction
+
+# significant p value = 0.00257 
+
+# cliff's delta
+
+cd_emp <- cliff.delta(median_salary$male_emp, median_salary$female_emp)
+
+cd_emp
+
+
+# cliff's delta = 0.213 (small)
+# r output says small, my notes say maybe closer to medium
+
+```
+
+
+
+
+```{r,include = FALSE, message=FALSE, warning=FALSE}
+
+data_melt <- melt(median_salary[c('field', 'male_pd', 'female_pd', 'male_emp', 'female_emp')], id.vars = 1)
+
+```
+
+
+```{r, echo=FALSE}
+# make side by side column graphs of median salary for each field in post doc
+
+# maybe make a new dataframe first
+
+
+pd_data <- data_melt %>% 
+  filter(variable == "female_pd" | variable == "male_pd")
+
+pd_graph <- ggplot(pd_data, aes(x = field, y = value))+
+  geom_col(aes(fill = variable), position = "dodge")+
+  theme_classic()+
+  scale_fill_manual(values = c("plum4", "lightblue3"),
+                    name = "Group",
+                    labels = c("Male", "Female"
+                    ))+
+  scale_y_continuous(expand = c(0,0),
+                     limits = c(0,70000),
+                     breaks = seq(0,70000, by = 10000))+ 
+  theme(axis.text.x = element_text(angle = 55, hjust = 1, size = 5))+
+  labs(x = "Field of Study", y = "Median Salary ($)")
+  
+
+pd_graph
+
+# QUESTIONS/OPINIONS
+# do we need the legend or can we explain in the figure caption? #I could go either way on the caption. #BG - Maybe shorten the fields in the legend to just Gender - Male/Female like in Part 1?
+
+# should i try to shorten the names of the fields or is the angle enough? #AP here: I think the Angle looks good!  BG - I'm good with the angle unless we really need to find extra space in our report! Then we could shorten the long ones to free up some space
+
+# 
+```
+
+**Figure X. Median Salary for Males and Females in Postdoctoral Study by Field.** Distribution of median salary for males and females working in positions of post doctoratal study seperated by discipline in 2015. There is no significant difference between male and female median salaries within each field of study [W=19.5, p=0.89] (cliff's delta = 0.04). Data used with permission from the National Science Foundation. 
+
+Male and female median salaries are equal in Biological and Biomedical Sciences, Chemistry, Economics, Engineering, Geoscience, Atmospheric and Ocean Sciences, Humanities and Arts, and Psychology. Among the remaining fields of study, male median salaries are higher than female median salaries in only Education, Mathematics and Computer Science, and Other non-S&E Fields. The greatest difference in median salaries between males and females is within the category of Other non-S&E Fields, where male median income is $6,000 greater than female median income. 
+
+```{r, echo=FALSE}
+# make side by side column graphs of median salary for each field in employed
+
+
+emp_data <- data_melt %>% 
+  filter(variable == "female_emp" | variable == "male_emp")
+
+
+emp_graph <- ggplot(emp_data, aes(x = field, y = value))+
+  geom_col(aes(fill = variable), position = "dodge")+
+  scale_fill_manual(values = c("plum4", "lightblue3"),
+                    name = "Group",
+                    labels = c("Male", "Female"))+
+  theme_classic()+
+  scale_y_continuous(expand = c(0,0),
+                     limits = c(0,125000),
+                     breaks = seq(0,125000, by = 20000))+ 
+  theme(axis.text.x = element_text(angle = 55, hjust = 1, size = 5))+
+  labs(x = "Field of Study", y = "Median Salary ($)")
+
+emp_graph
+
+```
+
+**Figure X. Median Salary for Males and Females in Postdoctoral Employment by Field.** Distribution of median salary for males and females working in post doctoratal employment seperated by discipline in 2015. There is a significant difference between male and female median salaries within each field of study [W=101, p=0.0026] (cliff's delta = 0.213). Data used with permission from the National Science Foundation. 
+
+
+Within the population of doctoral recipients that are employed, male median salaries are equal to or greater than female median salaries in every field except Physics and Astronomy. The largest difference in median salaries between males and females is in Mathematics and Computer Sciences where men earn a median salary of \$105,000 and women earn a median salary of \$90,000, a difference of \$15,000. 
+
+
+
+```{r, include = FALSE}
+#Load packages
+
+library(tidyverse)
+library(stargazer)
+library(car)
+
+#Load edited dataset
+
+faculty_salaries <- read_csv("faculty data edited.csv")
+```
+
+```{r, include = FALSE}
+#Some initial data exploration to get an early sense of any trends
+
+#Salary by gender
+sal_by_gender <- faculty_salaries %>% 
+  group_by(Sex) %>% 
+  summarize(
+    mean = mean(Salary)
+  )
+
+#Salary by rank (professor, associate professor, assistant professor)
+sal_by_rank <- faculty_salaries %>% 
+  group_by(Rank) %>% 
+  summarize(
+    mean = mean(Salary)
+  )
+
+#Average years (since PhD, and of service) for each rank
+sal_by_bothyears <- faculty_salaries %>% 
+  group_by(Rank) %>% 
+  summarize(
+    mean_PhD = mean(Years_PhD),
+    mean_service = mean(Years_Service)
+  )
+
+#Salary by years of service (number of years as faculty), color coded for gender, separated by discipline
+sal_by_service <- ggplot(faculty_salaries, aes(x = Years_Service, y = Salary)) +
+  geom_point(aes(color = Sex), alpha = 0.5) +
+  facet_wrap(~ Discipline)
+
+sal_by_service
+
+#Salary by years since PhD, color coded for gender, separated by discipline
+sal_by_years <- ggplot(faculty_salaries, aes(x = Years_PhD, y = Salary)) +
+  geom_point(aes(color = Sex), alpha = 0.5) +
+  facet_wrap(~ Discipline)
+
+sal_by_years
+
+#Salary by years of service (number of years as faculty), color coded for gender, separated by rank
+sal_by_service_rank <- ggplot(faculty_salaries, aes(x = Years_Service, y = Salary)) +
+  geom_point(aes(color = Sex), alpha = 0.5) +
+  facet_wrap(~ Rank)
+
+sal_by_service_rank
+
+#Salary by years since PhD, color coded for gender, separated by rank
+sal_by_years_rank <- ggplot(faculty_salaries, aes(x = Years_PhD, y = Salary)) +
+  geom_point(aes(color = Sex), alpha = 0.5) +
+  facet_wrap(~ Rank)
+
+sal_by_years_rank
+
+#Mean salary by discipline (A = theoretical, B = applied)
+sal_discipline_mean <- faculty_salaries %>% 
+  group_by(Discipline) %>% 
+  summarize(
+    mean = mean(Salary)
+  )
+
+```
+
+```{r, include = FALSE}
+#Exploring possibilities of collinearity (focusing on years PhD, years of service)
+
+col_df <- faculty_salaries %>% 
+  select(Years_PhD, Years_Service, Salary)
+
+pairs(col_df)
+
+#Years_PhD and Years_Service appear to be highly correlated
+
+```
+
+
+```{r, include = FALSE}
+#Creating a saturated model for salary, including all variables:
+
+#Rank - professor, associate professor, assistant professor
+#Discipline - A = theoretical or B = applied
+#Sex - male or female
+#Years_PhD - years since getting PhD
+#Years_Service - years as a faculty member
+
+sal_lm1 <- lm(Salary ~ Rank + Discipline + Sex + Years_PhD + Years_Service, data = faculty_salaries)
+
+summary(sal_lm1)
+
+#Info from the model summary:
+#For rank, the referene level is associate professor
+#For sex, the reference level is female
+#For discipline, the reference level is A (theoretical)
+#Years_PhD and Years_Service are continuous 
+
+#Coefficients for rank seem to make sense - compared to associate professor, a full professor makes a good deal more, and an assistant professor makes less (matches the means that were calculated above)
+
+#Coefficient for sex seems to make sense - male faculty made more
+
+#Coefficient for discipline seems to make sense - applied made more than theoretical
+
+#Are years_PhD and years_service redundant? Do they sort of get at a similar thing? Which one is better? Are they both incorporated within rank?
+
+#Based on overall p-value, the model does significantly predict salary (p < 0.001)
+
+```
+
+```{r, include = FALSE}
+#Another model, this time using years_service and not years_phd
+
+sal_lm2 <- lm(Salary ~ Rank + Discipline + Sex + Years_Service, data = faculty_salaries)
+
+summary(sal_lm2)
+
+#Still weird that there is a negative coefficient for years of service - doesn't make sense!
+```
+
+```{r, include = FALSE}
+#What about a model with years since phd, instead of years of service?
+
+sal_lm3 <- lm(Salary ~ Rank + Discipline + Sex + Years_PhD, data = faculty_salaries)
+
+summary(sal_lm3)
+
+#Positive coefficient for years since PhD, so better!
+```
+
+```{r, include = FALSE}
+#Now a model with only rank, discipline, and sex (not using years since PhD or years of service)
+
+sal_lm4 <- lm(Salary ~ Rank + Discipline + Sex, data = faculty_salaries)
+
+summary(sal_lm4)
+```
+
+
+```{r, include = FALSE}
+#Model diagnostics
+
+#For lm1 (saturated model)
+
+plot(sal_lm1)
+
+#Homoscedasticity seems fine, residuals normality looks pretty good for majority of data (upper tail is a little strange)
+
+plot(sal_lm2)
+
+#Homoscedasticity seems fine, again residuals normality looks pretty good for majority of data (upper tail is a little strange)
+
+plot(sal_lm3)
+
+#Homoscedasticity seems fine, again residuals normality looks pretty good for majority of data (upper tail is a little strange)
+
+plot(sal_lm4)
+
+#Homoscedasticity seems fine, again residuals normality looks pretty good for majority of data (upper tail is a little strange)
+
+#For the q-q, upper tail could be influenced that as rank/years get high, salaries start to increase non-linearly
+```
+
+```{r, include = FALSE}
+#VIF for each model
+
+vif(sal_lm1)
+
+#Years_PhD and Years_Service both have VIF values > 4 (7.5, 5.9) - remove one of them from the model? Remove both - is this incorporated into rank?
+
+vif(sal_lm2)
+vif(sal_lm3)
+vif(sal_lm4)
+
+#No other VIF values were higher than 4. Also, with the exception of Years_PhD in model 2, all were very close to one (and in that instance, the value was 2)
+
+#AIC models comparison
+
+lm1_aic <- AIC(sal_lm1) #9093.82
+lm2_aic <- AIC(sal_lm2) #9096.81
+lm3_aic <- AIC(sal_lm3) #9097.21
+lm4_aic <- AIC(sal_lm4) #9095.45
+```
+
+```{r, include = FALSE}
+#What about trying two models with interaction terms 
+
+sal_lm5 <- lm(Salary ~ Rank + Sex + Discipline + Years_Service + Discipline*Years_Service, data = faculty_salaries)
+
+summary(sal_lm5)
+
+
+```
+
+```{r, include = FALSE}
+#What about taking out rank and leaving in one of the years?
+
+sal_lm6 <- lm(Salary ~ Discipline + Sex + Years_Service, data = faculty_salaries)
+
+summary(sal_lm6)
+
+```
+
+```{r, include = FALSE}
+#I think it's nicer to have assistant professor be the reference level
+
+faculty_salaries$Rank <- factor(faculty_salaries$Rank)
+
+faculty_salaries$Rank <- fct_relevel(faculty_salaries$Rank, "AsstProf")
+
+
+sal_lm4 <- lm(Salary ~ Rank + Discipline + Sex, data = faculty_salaries)
+
+summary(sal_lm4)
+
+```
+
+Multiple linear regression was used to model faculty salaries, and it was found that a model incorporating Rank, Discipline, and Sex explains a significant amount of variance in salary (Salary ($) = 13723(Associate Professor) + 47403(Professor) + 13709(Applied Discipline) + 4492(Male), F(4,392) = 79.18, p < 0.001, R^2 = 0.45). Three different levels of rank are incorporated into the model: assistant professor, associate professor, and professor; the reference level in the model is assistant professor. On average, associate professors can be expected to make 13,723 more than assistant professors if other factors are held constant, with professors making the most at 47,403 more than assistant professors. Both theoretical(A) and applied(B) disciplines were considered for the model, with the reference level set to theoretical disciplines. On average, it appears as though faculty members working within applied disciplines will make 13,709 more than their colleagues in theoretical disciplines. Lastly, the model looks at the sex of the faculty, with the reference level of the model set to female. Male faculty make 4,492 more than females on average, with all other factors held constant. 
+
+
+```{r stargazer, results = 'asis', header = FALSE, echo = FALSE}
+#stargazer table
+
+stargazer(sal_lm4, 
+          type = 'html', 
+          digits = 3,
+          style = "aer",
+          title = "Table X: Faculty Salary Regression Results", 
+          dep.var.labels = c("Salary"),
+          covariate.labels = c("Assoc. Professor", "Professor", "Applied Discipline", "Male"))
+
+```
+<br>
+
+Both rank and discipline appear to be significant drivers of the salary model (p values < 0.001). While the sex of the faculty members does affect average expected salary, it has less of a significant impact on the overall model. Future iterations of the model could include considerations for faculty research area, public or private universities, and size of the department or program. 
